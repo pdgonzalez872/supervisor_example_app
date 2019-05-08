@@ -18,10 +18,7 @@ defmodule SupervisorExampleAppTest do
     # Prepare the child_spec map
     child_spec = %{
       id: "new agent",
-      # This works, `start_child/2` works with this map
-      # start: {Agent, :start_link, [fn -> %{im_global: true} end]},
-      # This does not work. `start_child/2` does not work with this map
-      start: {Agent, :start_link, [fn -> %{im_global: true} end, name: {:global, "im global child spec"}]},
+      start: {Agent, :start_link, [fn -> %{im_global: true} end, [name: {:global, "im global child spec"}]]},
       shutdown: 5_000,
       restart: :permanent,
       type: :worker,
@@ -34,6 +31,6 @@ defmodule SupervisorExampleAppTest do
     assert %{im_global: true} = Agent.get(child, & &1)
 
     # I want the following to work eventually
-    assert %{im_global: true} = Agent.get("im global child spec", & &1)
+    assert %{im_global: true} = Agent.get({:global, "im global child spec"}, & &1)
   end
 end
