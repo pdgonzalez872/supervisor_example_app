@@ -15,7 +15,7 @@ defmodule SupervisorExampleAppTest do
 
     # Now we add the named_global_agent to the DynamicSupervisor supervision's
     # tree.
-
+    # Prepare the child_spec map
     child_spec = %{
       id: "new agent",
       # This works, `start_child/2` works with this map
